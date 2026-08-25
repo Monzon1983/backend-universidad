@@ -51,19 +51,20 @@ Cliente (Navegador/cURL/Postman)                Servidor (Node.js)
 
 ### 1. Pruebas Unitarias Automatizadas (Vitest)
 Suite de pruebas unitarias implementadas bajo metodología XP (TDD), verificando casos de éxito y errores de validación.
-(<Captura de pantalla 2026-08-25 110843-1.png>)
+
+![Tests Vitest](./evidencias/vitest.png)
 
 ### 2. Servidor HTTP Nativo en Ejecución
 Servidor Node.js corriendo en el puerto 3000 con soporte para TypeScript.
 
-(<Captura de pantalla 2026-08-25 110918.png>)
+![Servidor Corriendo](./evidencias/servidor.png)
 
 ### 3. Creación de Recurso vía POST (Postman)
 Petición `POST /estudiantes` enviando payload JSON y recibiendo status `201 Created` con el ID autoincremental asignado.
 
-(<Captura de pantalla 2026-08-25 110206.png>)
+![Postman POST](./evidencias/postman_post.png)
 
 ### 4. Consulta y Listado vía GET (Postman)
 Petición `GET /estudiantes` obteniendo la colección completa con status `200 OK`.
 
-(<Captura de pantalla 2026-08-25 105759.png>)
+![Postman GET](./evidencias/postman_get.png)
