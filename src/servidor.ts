@@ -1,6 +1,7 @@
 ﻿import { createServer, IncomingMessage, ServerResponse } from "node:http";
+import { obtenerEstudiantes, crearEstudiante, type Estudiante } from "./estudiantes.ts";
 
-const estudiantesMock = [
+const estudiantesMock: Estudiante[] = [
   { id: 1, nombre: "Ana García", carrera: "Programación" },
   { id: 2, nombre: "Carlos López", carrera: "Sistemas" },
   { id: 42, nombre: "Mauro Monzón", carrera: "Programación" }
@@ -17,23 +18,44 @@ const servidor = createServer((solicitud: IncomingMessage, respuesta: ServerResp
   respuesta.setHeader("Content-Type", "application/json; charset=utf-8");
 
   const metodo = solicitud.method;
-  const url = solicitud.url || "/";
+  const urlCompleta = new URL(solicitud.url || "/", `http://localhost:${puerto}`);
+  const ruta = urlCompleta.pathname;
 
-  if (metodo === "GET" && url === "/salud") {
+  if (metodo === "GET" && ruta === "/salud") {
     return enviarRespuesta(respuesta, 200, {
       estado: "ok",
       fecha: new Date().toISOString()
     });
   }
 
-  if (metodo === "GET" && url === "/hora") {
-    return enviarRespuesta(respuesta, 200, {
-      hora: new Date().toLocaleTimeString('es-AR')
-    });
+  if (metodo === "GET" && ruta === "/estudiantes") {
+    const carreraParam = urlCompleta.searchParams.get("carrera") ?? undefined;
+    const resultado = obtenerEstudiantes(estudiantesMock, carreraParam);
+    return enviarRespuesta(respuesta, 200, resultado);
   }
 
-  if (metodo === "GET" && url.startsWith("/estudiantes/")) {
-    const partesUrl = url.split("/");
+  if (metodo === "POST" && ruta === "/estudiantes") {
+    let cuerpo = "";
+
+    solicitud.on("data", (trozo) => {
+      cuerpo += trozo;
+    });
+
+    solicitud.on("end", () => {
+      try {
+        const datos = JSON.parse(cuerpo || "{}");
+        const nuevoEstudiante = crearEstudiante(estudiantesMock, datos);
+        return enviarRespuesta(respuesta, 201, nuevoEstudiante);
+      } catch (error: any) {
+        return enviarRespuesta(respuesta, 400, { error: error.message || "JSON inválido" });
+      }
+    });
+
+    return;
+  }
+
+  if (metodo === "GET" && ruta.startsWith("/estudiantes/")) {
+    const partesUrl = ruta.split("/");
     const idParametro = partesUrl[2];
 
     if (partesUrl.length !== 3 || !idParametro) {
