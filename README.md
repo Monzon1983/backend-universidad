@@ -1,70 +1,18 @@
-# Backend Universidad
+# Backend Universidad - Módulo de Pedidos y Prisma ORM
 
-Proyecto de servidor HTTP básico utilizando el módulo nativo de Node.js (`node:http`) y TypeScript. 
-Nota de autoría: Definí la lógica de los requerimientos y utilicé IA como asistente para la generación y estructuración del código.
+Proyecto de servidor backend desarrollado en Node.js, Express y TypeScript, evolucionado para utilizar una base de datos relacional mediante **Prisma ORM**, implementando control de stock atómico con transacciones ACID y documentación interactiva con **Swagger**. 
+
+> **Nota de autoría:** Definí la lógica de los requerimientos y utilicé IA como asistente para la generación y estructuración del código.
+
+## Stack Tecnológico
+
+* **Runtime:** Node.js
+* **Framework Web:** Express.js
+* **Lenguaje:** TypeScript
+* **ORM:** Prisma
+* **Base de Datos:** PostgreSQL
+* **Documentación:** Swagger UI / OpenAPI 3.0
 
 ## Ejecución y Pruebas
 
-1. Instalar dependencias: `npm install`
-2. Ejecutar en desarrollo: `npm run dev`
-3. Ejecutar tests unitarios (Vitest / TDD): `npx vitest run`
-4. Compilar a JS: `npm run build`
-
-## Endpoints Disponibles
-
-| Método | Endpoint | Descripción | Status Esperado |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/salud` | Verificación de estado del servidor | `200 OK` |
-| `GET` | `/hora` | Devuelve la hora local del servidor | `200 OK` |
-| `GET` | `/estudiantes` | Lista todos los estudiantes registrados | `200 OK` |
-| `GET` | `/estudiantes?carrera=Programación` | Filtra estudiantes por carrera | `200 OK` |
-| `GET` | `/estudiantes/:id` | Busca un estudiante por su ID numérico | `200 OK` / `404 Not Found` |
-| `POST` | `/estudiantes` | Crea un nuevo estudiante (`{ nombre, carrera }`) | `201 Created` / `400 Bad Request` |
-
-## Casos de Prueba (cURL / PowerShell)
-
-- Salud: `curl -i http://localhost:3000/salud`
-- Hora: `curl -i http://localhost:3000/hora`
-- Listar todos: `curl -i http://localhost:3000/estudiantes`
-- Filtrar por carrera: `curl -i "http://localhost:3000/estudiantes?carrera=Programaci%C3%B3n"`
-- Estudiante existente: `curl -i http://localhost:3000/estudiantes/42`
-- Estudiante inexistente (404): `curl -i http://localhost:3000/estudiantes/999`
-- Ruta inexistente (404): `curl -i http://localhost:3000/ruta-inexistente`
-- Crear estudiante (POST): `Invoke-RestMethod -Uri "http://localhost:3000/estudiantes" -Method Post -ContentType "application/json; charset=utf-8" -Body '{"nombre": "Esteban Quito", "carrera": "Redes"}'`
-
-## Diagrama del ciclo Solicitud-Respuesta
-
-Cliente (Navegador/cURL/Postman)                Servidor (Node.js)
-       |                                                |
-       | --- 1. Solicitud HTTP GET / POST ------------> |
-       |     (URL: /estudiantes, Body / Params)         |
-       |                                                |
-       |                                                |--> Procesa método y ruta
-       |                                                |--> Ejecuta lógica / Valida datos
-       |                                                |
-       | <--- 2. Respuesta HTTP (200 / 201 / 400 / 404) |
-       |     (Headers: Content-Type: application/json)  |
-       |     (Cuerpo JSON serializado)                  |
-       |                                                |
-
-## Evidencias de Ejecución y Pruebas
-
-### 1. Pruebas Unitarias Automatizadas (Vitest)
-Suite de pruebas unitarias implementadas bajo metodología XP (TDD), verificando casos de éxito y errores de validación.
-
-![Tests Vitest](./evidencias/vitest.png)
-
-### 2. Servidor HTTP Nativo en Ejecución
-Servidor Node.js corriendo en el puerto 3000 con soporte para TypeScript.
-
-![Servidor Corriendo](./evidencias/servidor.png)
-
-### 3. Creación de Recurso vía POST (Postman)
-Petición `POST /estudiantes` enviando payload JSON y recibiendo status `201 Created` con el ID autoincremental asignado.
-
-![Postman POST](./evidencias/postman_post.png)
-
-### 4. Consulta y Listado vía GET (Postman)
-Petición `GET /estudiantes` obteniendo la colección completa con status `200 OK`.
-
-![Postman GET](./evidencias/postman_get.png)
+1. **Instalar dependencias:**
